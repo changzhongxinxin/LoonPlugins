@@ -1,0 +1,32 @@
+#!name = 联通电信广电Cookie获取
+#!desc = 
+#!tag = 工具
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.5(805)
+#!icon = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Icon/App/Emby-02.png
+#!date = 2025-01-01 00:00
+
+
+
+[Argument]
+# 联通
+联通cookie = switch, true, false, tag = 获取联通cookie
+电信cookie = switch, true, false, tag = 获取电信cookie
+电信task = switch, true, false, tag = 电信定时任务
+广电cookie = switch, true, false, tag = 获取广电cookie
+广电task = switch, true, false, tag = 广电定时任务
+
+[Script]
+
+cron "*/5 * * * *" script-path=https://github.com/ChinaTelecomOperators/ChinaTelecom/releases/download/Prerelease-Alpha/Tele_Cellular_Auto.js, enabled=false, tag=电信余量,enable = {电信task}
+
+http-request ^https:\/\/e\.dlife\.cn\/user\/loginMiddle script-path=https://raw.githubusercontent.com/dompling/Script/master/10000/index.js, requires-body=true, enabled=false, tag=电信Cookie,enable = {电信cookie}
+
+http-request https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js, requires-body=true, tag=联通Cookie,enable = {联通cookie}
+
+http-request https://wx.10099.com.cn/contact-web/api/busi/qryUserInfo script-path=https://github.com/wuhuhuuuu/study/raw/main/Scripts/ChinaBroadnet/ChinaBroadnet.cookie.js, requires-body=true, timeout=10, enabled=false, tag=广电Cookie, img-url=https://github.com/wuhuhuuuu/study/raw/main/Scripts/ChinaBroadnet/ChinaBroadnet.png,enable = {广电cookie}
+cron "3 0 * * *" script-path=https://github.com/wuhuhuuuu/study/raw/main/Scripts/ChinaBroadnet/ChinaBroadnet.js, timeout=10, enabled=false, tag=广电Cookie, img-url=https://github.com/wuhuhuuuu/study/raw/main/Scripts/ChinaBroadnet/ChinaBroadnet.png,enable = {广电task}
+
+[MitM]
+hostname = e.dlife.cn,m.client.10010.com,wx.10099.com.cn
