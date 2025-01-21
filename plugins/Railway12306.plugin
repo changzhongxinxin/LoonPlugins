@@ -17,9 +17,18 @@
 # 放行规则
 DOMAIN, ad.12306.cn, DIRECT
 
+
+[Argument]
+# 阿里云盘
+cleanAD = switch, false, true, tag = 去除应用内广告车(车票无法刷新)
+
+
 [Script]
 # 移除12306开屏广告
 http-request ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ script-path = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Script/Railway12306/Railway12306.js, requires-body = true, tag = 移除12306开屏广告
 
+# 移除12306应用内广告
+http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Script/MyBlockAds/header.js, tag = 移除12306应用内广告,enable = {cleanAD}
+
 [MitM]
-hostname = ad.12306.cn
+hostname = ad.12306.cn, mobile.12306.cn
