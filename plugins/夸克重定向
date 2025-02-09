@@ -11,7 +11,7 @@
 #!date = 2025-02-04 17:00
 
 [Rewrite]
-(https:\/\/)?pan\.quark\/(.+) 307 qklink://www.uc.cn?action=open_url&url=$2
+(.+) 307 qklink://www.uc.cn?action=open_url&url=$2
 
 [MitM]
 hostname = pan.quark
